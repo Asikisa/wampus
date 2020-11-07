@@ -9,7 +9,7 @@ assert (2,5) <= sys.version_info < (3,), """\
 This code is meant for Python 2.5 through 2.7.
 You might find that the parts you care about still work in older
 Pythons or happen to work in newer ones, but you're on your own --
-edit utils.py if you want to try it."""
+edit utills.py if you want to try it."""
 
 #______________________________________________________________________________
 # Compatibility with Python 2.2, 2.3, and 2.4
@@ -28,7 +28,7 @@ except NameError:
         def __int__(self): return self.val
         def __repr__(self): return ('False', 'True')[self.val]
 
-    True, False = bool(1), bool(0)
+    # True, False = bool(1), bool(0)
 
 try: sum ## Introduced in 2.3
 except NameError:
@@ -668,8 +668,8 @@ def print_table(table, header=None, sep='   ', numfmt='%g'):
 
 def AIMAFile(components, mode='r'):
     "Open a file based at the AIMA root directory."
-    import utils
-    dir = os.path.dirname(utils.__file__)
+    import utills
+    dir = os.path.dirname(utills.__file__)
     return open(apply(os.path.join, [dir] + components), mode)
 
 def DataFile(name, mode='r'):
