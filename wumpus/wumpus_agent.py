@@ -1,31 +1,23 @@
-""""
-
-Includes classes for the agent and his knowledge base.  Some useful methods
-are also in this file.
-
-
 # FACING KEY:
 #    0 = up
 #    1 = right
 #    2 = down
 #    3 = left
-"""
-
-
 from logic import expr, dpll_satisfiable
 from random import randint
 
+
 def get_neighbors(r, c):
-#    Returns a list of the neighbors of position (r, c).
+    #    Returns a list of the neighbors of position (r, c).
     neighbors = set()
     if (r + 1) in range(4):
-        neighbors.add((r+1, c))
+        neighbors.add((r + 1, c))
     if (r - 1) in range(4):
-        neighbors.add((r-1, c))
+        neighbors.add((r - 1, c))
     if (c + 1) in range(4):
-        neighbors.add((r, c+1))
+        neighbors.add((r, c + 1))
     if (c - 1) in range(4):
-        neighbors.add((r, c-1))
+        neighbors.add((r, c - 1))
     return neighbors
 
 
@@ -36,7 +28,7 @@ class WWKB():
         self.knows = expr('~P30 & ~W30')
 
         # Lists of initial sentences
-        templist = []        
+        templist = []
         for x in range(4):
             for y in range(4):
                 for l, r in (('B', 'P'), ('S', 'W')):
@@ -45,16 +37,16 @@ class WWKB():
                     for s, t in get_neighbors(x, y):
                         tempRight.append("%s%s%s" % (r, s, t))
                     templist.append("(%s <=> (%s))" % \
-                              (tempLeft, ' | '.join(tempRight)))
+                                    (tempLeft, ' | '.join(tempRight)))
         implications = expr(' & '.join(templist))
         templist2 = ['W%s%s' % (i, j) for i in range(4) for j in range(4)]
         wumpus = expr(' | '.join(templist2))
         templist3 = ['(~W%s%s | ~W%s%s)' % (i, j, x, y)
-              for i in range(4) \
-              for j in range(4) \
-              for x in range(4) \
-              for y in range(4) \
-              if not ((i == x) and (j == y))]
+                     for i in range(4) \
+                     for j in range(4) \
+                     for x in range(4) \
+                     for y in range(4) \
+                     if not ((i == x) and (j == y))]
         wumpus2 = expr(' & '.join(templist3))
         # Insert lists of sentence expressions into KB
         self.knows &= implications
@@ -93,11 +85,11 @@ class WWAgent:
         self.unsureGoal = False
         self.percepts = (None, None, None, None, None)
         self.knownWorld = [[[0 for x in range(5)] for x in range(4)] for x in range(4)]
-        #print("New agent created")
+        # print("New agent created")
 
     def update(self, percept):
         self.percepts = percept
-        #[stench, breeze, glitter, bump, scream]
+        # [stench, breeze, glitter, bump, scream]
 
     def update_stats(self, pastAction):
         if (self.percepts[4] == 'scream'):
@@ -119,17 +111,17 @@ class WWAgent:
             p = self.position
             if (self.facing == 0) and ((p[0] - 1) >= 0):
                 self.lastPos = self.position
-                self.position = (p[0]-1, p[1])
+                self.position = (p[0] - 1, p[1])
             elif (self.facing == 1) and ((p[1] + 1) < 4):
                 self.lastPos = self.position
-                self.position = (p[0], p[1]+1)
+                self.position = (p[0], p[1] + 1)
             elif (self.facing == 2) and ((p[0] + 1) < 4):
                 self.lastPos = self.position
-                self.position = (p[0]+1, p[1])
+                self.position = (p[0] + 1, p[1])
             elif (self.facing == 3) and ((p[1] - 1) >= 0):
                 self.lastPos = self.position
-                self.position = (p[0], p[1]-1)
-        #print 'P-position: ', self.position
+                self.position = (p[0], p[1] - 1)
+        # print 'P-position: ', self.position
 
     def create_plan(self, goal):
         vis = {}
@@ -166,8 +158,8 @@ class WWAgent:
                     pos = v
                     break
         path.append(goal)
-        #print 'Goal: ', goal
-        #print "Path: ", path
+        # print 'Goal: ', goal
+        # print "Path: ", path
         # path created
         # build plan backwards
         for p in path:
@@ -197,8 +189,8 @@ class WWAgent:
             currPos = p
         # put plan in correct order
         plan.reverse()
-        #print 'Plan: ', plan
-        
+        # print 'Plan: ', plan
+
         return plan
 
     def action(self):
@@ -210,7 +202,7 @@ class WWAgent:
             self.visited.add(self.position)
             pos = self.position
             lpos = self.lastPos
-            #print(pos)
+            # print(pos)
             self.knownWorld[pos[0]][pos[1]] = self.percepts
             if (self.percepts[0] == 'stench'):
                 toTell = 'S%s%s' % (pos[0], pos[1])
@@ -234,7 +226,7 @@ class WWAgent:
             # Using corner logic
             # UPDATE SURROUNDINGS
             temp = get_neighbors(pos[0], pos[1]) - self.visited
-            #print "surrounding-visited: ", temp
+            # print "surrounding-visited: ", temp
             temp = temp - self.safe
             temp = temp - self.notsafe
             tempS = set()
@@ -268,9 +260,9 @@ class WWAgent:
             self.safe = self.safe - self.visited
             #
             #
-            #print "safe list: ", self.safe
-            #print 'danger list: ', self.notsafe
-            #print 'unsure list: ', self.unsure
+            # print "safe list: ", self.safe
+            # print 'danger list: ', self.notsafe
+            # print 'unsure list: ', self.unsure
             #
 
         if (self.start is True) and (self.percepts[0] == 'stench'):
@@ -282,7 +274,7 @@ class WWAgent:
         elif (len(self.plan) > 0):
             # TAKE ACTION FROM PLAN
             action = self.plan.pop()
-            #print "plan:action: ", action
+            # print "plan:action: ", action
         else:
             # CREATE PLAN
             # If the agent has gold his next goal should be the exit (start square)
@@ -305,16 +297,16 @@ class WWAgent:
             else:
                 tempGoal = (3, 0)
                 self.unsureGoal = False
-            #print "Goal: ", tempGoal
+            # print "Goal: ", tempGoal
             self.plan = self.create_plan(tempGoal)
-            #print "Plan: ", self.plan
-            # Shoot arrow before final move to make sure 
+            # print "Plan: ", self.plan
+            # Shoot arrow before final move to make sure
             if (self.unsureGoal is True) and (len(self.plan) == 1) and \
-                (self.percepts[0] == 'stench') and (self.arrow == 1):
+                    (self.percepts[0] == 'stench') and (self.arrow == 1):
                 action = 'shoot'
             else:
                 action = self.plan.pop()
-            #print "pc:action: ", action
+            # print "pc:action: ", action
 
         self.start = False
         self.lastAction = action

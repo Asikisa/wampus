@@ -9,7 +9,6 @@ class Expr:
         self.args = map(toexpr, args)
 
 
-
 def toexpr(e):
     if isinstance(e, Expr):
         return e
@@ -17,5 +16,3 @@ def toexpr(e):
         return Expr(e)
     res = re.sub(r'([a-zA-Z0-9_.]+)', r'Expr("\1")', e)
     return Expr(res)
-
-

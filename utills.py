@@ -4,6 +4,7 @@
 
 from __future__ import generators
 import operator, math, random, copy, sys, os.path, bisect, re
+from filecmp import cmp
 
 assert (2,5) <= sys.version_info < (3,), """\
 This code is meant for Python 2.5 through 2.7.

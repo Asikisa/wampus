@@ -10,7 +10,7 @@
 
 from wwagent import *
 import sys
-from Tkinter import *
+from tkinter import *
 from random import randint
 
 # in your inner loop use it thus (just an example, I would probably use a named tuple)
@@ -524,27 +524,27 @@ if (len(sys.argv) == 2):
         print('START OF SIMULATION')
         while (sim.terminal_test() is not True):
             print('------------------------------------------------------------------')
-            print 'Move: ', moveCount
-            print 'Last Action: ', sim.lastMove
+            print(('Move: ', moveCount))
+            print(('Last Action: ', sim.lastMove))
             print('\n')
             print('Wumpus World Item Locations:')
-            print 'Wumpus Location: ', wl, '   Gold Location: ', gl
-            print 'Pit Locations: ', str(pl)
+            print(('Wumpus Location: ', wl, '   Gold Location: ', gl))
+            print(('Pit Locations: ', str(pl)))
             print('\n')
             print('Agent Info:')
-            print 'Position: ', sim.agentPos, '   Facing: ', sim.agentFacing
-            print 'Has Gold: ', str(sim.hasGold), '   Arrow: ', sim.arrow
+            print(('Position: ', sim.agentPos, '   Facing: ', sim.agentFacing))
+            print(('Has Gold: ', str(sim.hasGold), '   Arrow: ', sim.arrow))
             print('\n')
             print('Simlulation Current States:')
-            print 'Wumpus Alive: ', str(sim.wumpusAlive), '   Performance: ', sim.score
-            print 'Current Percepts: ', str(sim.percepts['room'+str(sim.agentPos[0])+str(sim.agentPos[1])])
+            print(('Wumpus Alive: ', str(sim.wumpusAlive), '   Performance: ', sim.score))
+            print(('Current Percepts: ', str(sim.percepts['room' + str(sim.agentPos[0]) + str(sim.agentPos[1])])))
             # Prompt agent to move
             sim.move()
             sim.update_score()
             moveCount = moveCount + 1
         # Print final result
         print('------------------------------------------------------------------')
-        print 'Last Action: ', sim.lastMove
+        print(('Last Action: ', sim.lastMove))
         print('GAME OVER')
         print('\n')
         if sim.lastMove.lower() == 'climb':
@@ -554,7 +554,7 @@ if (len(sys.argv) == 2):
         else:
             print('Agent fell into pit and died!')
         print('\n')
-        print 'Final Performance: ', sim.score
+        print(('Final Performance: ', sim.score))
 
     elif (arglist[1].lower() == '-help'):
         print('------------------------------------------------------------------')
