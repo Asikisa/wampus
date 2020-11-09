@@ -307,6 +307,7 @@ def product(numbers):
     """
     return reduce(operator.mul, numbers, 1)
 
+from functools import reduce
 def count_if(predicate, seq):
     """Count the number of elements of seq for which the predicate is true.
     >>> count_if(callable, [42, None, max, min])
@@ -563,12 +564,16 @@ def turn_right(heading):
 def turn_left(heading):
     return turn_heading(heading, +1)
 
-def distance((ax, ay), (bx, by)):
+def distance(xxx_todo_changeme, xxx_todo_changeme1):
     "The distance between two (x, y) points."
+    (ax, ay) = xxx_todo_changeme
+    (bx, by) = xxx_todo_changeme1
     return math.hypot((ax - bx), (ay - by))
 
-def distance2((ax, ay), (bx, by)):
+def distance2(xxx_todo_changeme, xxx_todo_changeme1):
     "The square of the distance between two (x, y) points."
+    (ax, ay) = xxx_todo_changeme
+    (bx, by) = xxx_todo_changeme1
     return (ax - bx)**2 + (ay - by)**2
 
 def vector_clip(vector, lowest, highest):
@@ -664,14 +669,14 @@ def print_table(table, header=None, sep='   ', numfmt='%g'):
     maxlen = lambda seq: max(map(len, seq))
     sizes = map(maxlen, zip(*[map(str, row) for row in table]))
     for row in table:
-        print sep.join(getattr(str(x), j)(size)
-                       for (j, size, x) in zip(justs, sizes, row))
+        print(sep.join(getattr(str(x), j)(size)
+                       for (j, size, x) in zip(justs, sizes, row)))
 
 def AIMAFile(components, mode='r'):
     "Open a file based at the AIMA root directory."
     import utills
     dir = os.path.dirname(utills.__file__)
-    return open(apply(os.path.join, [dir] + components), mode)
+    return open(os.path.join(*[dir] + components), mode)
 
 def DataFile(name, mode='r'):
     "Return a file in the AIMA /data directory."
@@ -699,7 +704,7 @@ class Queue:
     as lists.  If Python ever gets interfaces, Queue will be an interface."""
 
     def __init__(self):
-        abstract
+        pass
 
     def extend(self, items):
         for item in items: self.append(item)
@@ -745,7 +750,7 @@ class PriorityQueue(Queue):
         else:
             return self.A.pop()[1]
     def __contains__(self, item):
-        return some(lambda (_, x): x == item, self.A)
+        return some(lambda __x: __x[1] == item, self.A)
     def __getitem__(self, key):
         for _, item in self.A:
             if item == key:
